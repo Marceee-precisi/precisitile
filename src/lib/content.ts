@@ -1,7 +1,7 @@
 export const site = {
   name: "Precisi Tile Solutions",
   shortName: "Precisi",
-  tagline: "Premium tile. Human craft.",
+  tagline: "Precision in every tile",
   description:
     "Master tile installation for kitchens, baths, and living spaces across Lake Norman and the greater Charlotte area.",
   phone: "(704) 000-0000", // TODO: replace with your real number
@@ -21,7 +21,7 @@ export const navLinks = [
 
 export const stats = [
   { value: "20+", label: "Years of craft" },
-  { value: "5,000+", label: "Installations" },
+  { value: "1,000+", label: "Installations" },
   { value: "Licensed", label: "& insured" },
   { value: "Lifetime", label: "Labor warranty" },
 ];

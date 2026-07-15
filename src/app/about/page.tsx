@@ -14,10 +14,10 @@ export default function AboutPage() {
     <div className="pt-24 md:pt-28">
       <section className="mx-auto grid max-w-6xl gap-12 px-5 pb-16 md:grid-cols-2 md:items-center md:px-8 md:pb-24">
         <div>
-          <p className="text-[0.7rem] font-medium tracking-[0.22em] text-lake uppercase">
+          <p className="text-[0.7rem] font-medium tracking-[0.22em] text-cyan uppercase">
             About
           </p>
-          <h1 className="mt-3 font-display text-4xl text-ink md:text-6xl">
+          <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink md:text-6xl">
             Craft you can see up close.
           </h1>
           <p className="mt-6 text-ink-muted leading-relaxed">
@@ -50,10 +50,10 @@ export default function AboutPage() {
         <div className="mx-auto max-w-6xl px-5 md:px-8">
           <div className="grid gap-8 md:grid-cols-[1fr_1.2fr] md:gap-16">
             <div>
-              <p className="text-[0.7rem] tracking-[0.22em] text-highlight uppercase">
+              <p className="text-[0.7rem] tracking-[0.22em] text-cyan uppercase">
                 Owner
               </p>
-              <h2 className="mt-3 font-display text-4xl">Juan Vasquez</h2>
+              <h2 className="mt-3 text-4xl font-bold tracking-tight">Juan Vasquez</h2>
               <p className="mt-2 text-sm text-white/60">
                 Owner, {site.name}
               </p>
@@ -69,7 +69,7 @@ export default function AboutPage() {
           <div className="mt-14 grid grid-cols-2 gap-6 border-t border-white/15 pt-10 md:grid-cols-4">
             {stats.map((stat) => (
               <div key={stat.label}>
-                <p className="font-display text-3xl text-highlight">
+                <p className="text-3xl font-bold text-cyan">
                   {stat.value}
                 </p>
                 <p className="mt-1 text-[0.65rem] tracking-[0.16em] text-white/55 uppercase">
@@ -83,7 +83,7 @@ export default function AboutPage() {
 
       <section className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-20 md:flex-row md:items-center md:justify-between md:px-8 md:py-24">
         <div>
-          <h2 className="font-display text-3xl text-ink md:text-4xl">
+          <h2 className="text-3xl font-bold tracking-tight text-ink md:text-4xl">
             Let’s talk about your next install.
           </h2>
           <p className="mt-3 max-w-lg text-ink-muted">

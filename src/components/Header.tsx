@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { LogoMark } from "@/components/LogoMark";
 import { navLinks, site } from "@/lib/content";
 
 export function Header() {
@@ -28,24 +29,28 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         solid
-          ? "bg-stone-50/90 shadow-[0_1px_0_rgba(22,24,26,0.06)] backdrop-blur-md"
+          ? "bg-stone-50/92 shadow-[0_1px_0_rgba(11,11,11,0.06)] backdrop-blur-md"
           : "bg-transparent"
       }`}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 md:h-20 md:px-8">
-        <Link
-          href="/"
-          className={`font-display text-2xl tracking-[0.04em] transition-colors md:text-[1.65rem] ${
-            solid ? "text-ink" : "text-white"
-          }`}
-        >
-          {site.shortName.toUpperCase()}
-          <span
-            className={`ml-2 text-[0.65rem] font-sans font-medium tracking-[0.22em] uppercase ${
-              solid ? "text-lake" : "text-white/75"
-            }`}
-          >
-            Tile
+        <Link href="/" className="flex items-center gap-3">
+          <LogoMark size={36} className="h-9 w-9 md:h-10 md:w-10" priority />
+          <span className="flex flex-col leading-none">
+            <span
+              className={`text-[0.8rem] font-bold tracking-[0.12em] uppercase md:text-[0.9rem] ${
+                solid ? "text-ink" : "text-white"
+              }`}
+            >
+              {site.shortName} Tile
+            </span>
+            <span
+              className={`mt-1 text-[0.58rem] font-medium tracking-[0.18em] uppercase ${
+                solid ? "text-tile-gray" : "text-white/70"
+              }`}
+            >
+              Solutions
+            </span>
           </span>
         </Link>
 
@@ -56,9 +61,15 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[0.8rem] font-medium tracking-[0.14em] uppercase transition-opacity hover:opacity-100 ${
-                  solid ? "text-ink" : "text-white"
-                } ${active ? "opacity-100" : "opacity-65"}`}
+                className={`text-[0.72rem] font-semibold tracking-[0.16em] uppercase transition-colors ${
+                  solid
+                    ? active
+                      ? "text-cyan"
+                      : "text-ink/70 hover:text-ink"
+                    : active
+                      ? "text-cyan"
+                      : "text-white/75 hover:text-white"
+                }`}
               >
                 {link.label}
               </Link>
@@ -94,7 +105,7 @@ export function Header() {
       </div>
 
       <div
-        className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-400 ${
+        className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ${
           open ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
@@ -104,7 +115,7 @@ export function Header() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="font-display text-3xl text-ink tracking-wide"
+                  className="text-2xl font-semibold tracking-wide text-ink uppercase"
                 >
                   {link.label}
                 </Link>

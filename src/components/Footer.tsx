@@ -1,24 +1,33 @@
 import Link from "next/link";
+import { LogoMark } from "@/components/LogoMark";
 import { site } from "@/lib/content";
 
 export function Footer() {
   return (
-    <footer className="border-t border-stone-200 bg-ink text-stone-100">
+    <footer className="border-t border-white/10 bg-ink text-stone-100">
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.4fr_1fr_1fr] md:px-8 md:py-16">
         <div>
-          <p className="font-display text-3xl tracking-[0.06em] text-white">
-            {site.shortName.toUpperCase()}
-          </p>
-          <p className="mt-3 max-w-sm text-sm leading-relaxed text-stone-300">
+          <div className="flex items-center gap-3">
+            <LogoMark size={48} className="h-12 w-12" />
+            <div>
+              <p className="text-sm font-bold tracking-[0.14em] text-white uppercase">
+                {site.name}
+              </p>
+              <p className="mt-1 text-[0.65rem] font-medium tracking-[0.18em] text-tile-gray uppercase">
+                {site.tagline}
+              </p>
+            </div>
+          </div>
+          <p className="mt-5 max-w-sm text-sm leading-relaxed text-stone-400">
             {site.description}
           </p>
         </div>
 
         <div>
-          <p className="text-[0.7rem] font-medium tracking-[0.2em] text-highlight uppercase">
+          <p className="text-[0.7rem] font-semibold tracking-[0.2em] text-cyan uppercase">
             Visit
           </p>
-          <ul className="mt-4 space-y-2 text-sm text-stone-300">
+          <ul className="mt-4 space-y-2 text-sm text-stone-400">
             <li>
               <Link href="/quote" className="transition-colors hover:text-white">
                 Request a quote
@@ -46,10 +55,10 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="text-[0.7rem] font-medium tracking-[0.2em] text-highlight uppercase">
+          <p className="text-[0.7rem] font-semibold tracking-[0.2em] text-cyan uppercase">
             Contact
           </p>
-          <ul className="mt-4 space-y-2 text-sm text-stone-300">
+          <ul className="mt-4 space-y-2 text-sm text-stone-400">
             <li>{site.serviceArea}</li>
             <li>
               <a

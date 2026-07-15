@@ -13,10 +13,10 @@ export default function GalleryPage() {
   return (
     <div className="pt-24 md:pt-28">
       <section className="mx-auto max-w-6xl px-5 pb-10 md:px-8">
-        <p className="text-[0.7rem] font-medium tracking-[0.22em] text-lake uppercase">
+        <p className="text-[0.7rem] font-medium tracking-[0.22em] text-cyan uppercase">
           Gallery
         </p>
-        <h1 className="mt-3 font-display text-4xl text-ink md:text-6xl">
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink md:text-6xl">
           Work worth showing.
         </h1>
         <p className="mt-4 max-w-2xl text-ink-muted leading-relaxed">
@@ -46,7 +46,7 @@ export default function GalleryPage() {
         </div>
 
         <div className="mt-16 flex flex-col items-start gap-6 border-t border-stone-200 pt-12 md:flex-row md:items-center md:justify-between">
-          <p className="max-w-md font-display text-3xl text-ink">
+          <p className="max-w-md text-3xl font-bold tracking-tight text-ink">
             Have a project in mind?
           </p>
           <ButtonLink href="/quote">Request a Quote</ButtonLink>

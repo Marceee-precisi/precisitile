@@ -12,10 +12,10 @@ export default function ContactPage() {
   return (
     <div className="pt-24 md:pt-28">
       <section className="mx-auto max-w-6xl px-5 pb-8 md:px-8">
-        <p className="text-[0.7rem] font-medium tracking-[0.22em] text-lake uppercase">
+        <p className="text-[0.7rem] font-medium tracking-[0.22em] text-cyan uppercase">
           Contact
         </p>
-        <h1 className="mt-3 font-display text-4xl text-ink md:text-6xl">
+        <h1 className="mt-3 text-4xl font-bold tracking-tight text-ink md:text-6xl">
           Let’s start the conversation.
         </h1>
         <p className="mt-4 max-w-2xl text-ink-muted leading-relaxed">
@@ -44,18 +44,18 @@ export default function ContactPage() {
           },
         ].map((item) => (
           <div key={item.label} className="border-t border-stone-200 pt-6">
-            <p className="text-[0.65rem] tracking-[0.18em] text-lake uppercase">
+            <p className="text-[0.65rem] tracking-[0.18em] text-cyan uppercase">
               {item.label}
             </p>
             {item.href ? (
               <a
                 href={item.href}
-                className="mt-3 block font-display text-2xl text-ink transition-colors hover:text-lake"
+                className="mt-3 block text-2xl font-semibold text-ink transition-colors hover:text-cyan"
               >
                 {item.value}
               </a>
             ) : (
-              <p className="mt-3 font-display text-2xl text-ink">{item.value}</p>
+              <p className="mt-3 text-2xl font-semibold text-ink">{item.value}</p>
             )}
           </div>
         ))}

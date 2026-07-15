@@ -1,16 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --stone-50: #f5f4f2;
-  --stone-100: #ebe8e3;
-  --stone-200: #d4cfc6;
-  --ink: #16181a;
-  --ink-muted: #5c6369;
-  --lake: #2f4f55;
-  --lake-deep: #1e3539;
-  --lake-light: #3d6a72;
-  --marble: #f0eeea;
-  --highlight: #c4b59a;
+  /* Brand — from Precisi logo */
+  --cyan: #2fc4f0;
+  --cyan-deep: #0aa8d4;
+  --cyan-soft: #7adcf7;
+  --tile-gray: #9b9ea3;
+  --ink: #0b0b0b;
+  --ink-muted: #5e636a;
+  --stone-50: #f3f5f7;
+  --stone-100: #e6eaee;
+  --stone-200: #cfd5db;
+  --marble: #eef1f4;
+  --highlight: var(--cyan);
+  /* Keep lake tokens as cyan aliases so existing classes still work */
+  --lake: var(--cyan);
+  --lake-deep: var(--cyan-deep);
+  --lake-light: var(--cyan-soft);
   --background: var(--stone-50);
   --foreground: var(--ink);
 }
@@ -28,8 +34,12 @@
   --color-lake-light: var(--lake-light);
   --color-marble: var(--marble);
   --color-highlight: var(--highlight);
-  --font-sans: var(--font-outfit);
-  --font-display: var(--font-cormorant);
+  --color-cyan: var(--cyan);
+  --color-cyan-deep: var(--cyan-deep);
+  --color-cyan-soft: var(--cyan-soft);
+  --color-tile-gray: var(--tile-gray);
+  --font-sans: var(--font-montserrat);
+  --font-display: var(--font-montserrat);
 }
 
 * {
@@ -43,11 +53,11 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-outfit), system-ui, sans-serif;
+  font-family: var(--font-montserrat), system-ui, sans-serif;
 }
 
 ::selection {
-  background: color-mix(in srgb, var(--lake) 25%, transparent);
+  background: color-mix(in srgb, var(--cyan) 35%, transparent);
   color: var(--ink);
 }
 
@@ -80,16 +90,6 @@ body {
   }
 }
 
-@keyframes grain {
-  0%,
-  100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-1%, -1%);
-  }
-}
-
 .animate-fade-up {
   animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -118,16 +118,16 @@ body {
 .marble-veil {
   background:
     radial-gradient(
-      ellipse 80% 60% at 20% 30%,
-      rgba(255, 255, 255, 0.45),
+      ellipse 80% 60% at 18% 25%,
+      rgba(47, 196, 240, 0.12),
       transparent 55%
     ),
     radial-gradient(
-      ellipse 70% 50% at 80% 70%,
-      rgba(47, 79, 85, 0.08),
+      ellipse 70% 50% at 85% 75%,
+      rgba(155, 158, 163, 0.18),
       transparent 50%
     ),
-    linear-gradient(165deg, #f7f5f1 0%, #ebe7df 48%, #e3e8e9 100%);
+    linear-gradient(165deg, #f5f7f9 0%, #e8edf1 52%, #e3eef3 100%);
 }
 
 .noise-overlay::after {
@@ -135,7 +135,7 @@ body {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  opacity: 0.035;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: multiply;
 }

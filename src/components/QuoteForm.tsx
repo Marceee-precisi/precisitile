@@ -54,14 +54,14 @@ export function QuoteForm() {
   if (status === "success") {
     return (
       <div className="border border-stone-200 bg-marble px-6 py-10 md:px-10">
-        <p className="font-display text-3xl text-ink">Thank you.</p>
+        <p className="text-3xl font-bold tracking-tight text-ink">Thank you.</p>
         <p className="mt-3 max-w-md text-ink-muted leading-relaxed">
           We received your quote request and will follow up shortly — usually
           within one business day.
         </p>
         <button
           type="button"
-          className="mt-8 text-[0.75rem] font-medium tracking-[0.16em] text-lake uppercase underline-offset-4 hover:underline"
+          className="mt-8 text-[0.75rem] font-medium tracking-[0.16em] text-cyan uppercase underline-offset-4 hover:underline"
           onClick={() => setStatus("idle")}
         >
           Submit another request
@@ -185,7 +185,7 @@ export function QuoteForm() {
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="w-full bg-lake px-6 py-4 text-[0.75rem] font-medium tracking-[0.16em] text-white uppercase transition-colors hover:bg-lake-deep disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
+        className="w-full bg-cyan px-6 py-4 text-[0.72rem] font-semibold tracking-[0.16em] text-ink uppercase transition-colors hover:bg-cyan-soft disabled:cursor-not-allowed disabled:opacity-60 md:w-auto"
       >
         {status === "submitting" ? "Sending…" : "Send quote request"}
       </button>
