@@ -36,8 +36,8 @@ export default function HomePage() {
           </p>
           <div className="animate-fade-up delay-2 mt-10 flex flex-wrap gap-3">
             <ButtonLink href="/quote">Request a Quote</ButtonLink>
-            <ButtonLink href="/book" variant="secondary">
-              Book Consultation
+            <ButtonLink href="/gallery" variant="secondary">
+              See Our Work
             </ButtonLink>
           </div>
         </div>
@@ -184,9 +184,6 @@ export default function HomePage() {
           </div>
           <div className="flex flex-wrap gap-3">
             <ButtonLink href="/quote">Request a Quote</ButtonLink>
-            <ButtonLink href="/book" variant="ghost">
-              Book Consultation
-            </ButtonLink>
           </div>
         </div>
       </section>

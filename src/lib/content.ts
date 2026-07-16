@@ -15,8 +15,6 @@ export const navLinks = [
   { href: "/gallery", label: "Gallery" },
   { href: "/about", label: "About" },
   { href: "/quote", label: "Request a Quote" },
-  { href: "/book", label: "Book" },
-  { href: "/contact", label: "Contact" },
 ];
 
 export const stats = [

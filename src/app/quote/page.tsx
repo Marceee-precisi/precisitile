@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { QuoteForm } from "@/components/QuoteForm";
-import { ButtonLink } from "@/components/ButtonLink";
+import { site } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Request a Quote",
@@ -21,10 +20,13 @@ export default function QuotePage() {
         </h1>
         <p className="mt-4 max-w-2xl text-ink-muted leading-relaxed">
           Share a few details and we’ll follow up with next steps — usually
-          within one business day. Prefer to talk first?{" "}
-          <Link href="/book" className="text-cyan underline-offset-2 hover:underline">
-            Book a consultation
-          </Link>
+          within one business day. Prefer to call?{" "}
+          <a
+            href={`tel:${site.phone.replace(/[^\d+]/g, "")}`}
+            className="text-cyan underline-offset-2 hover:underline"
+          >
+            {site.phone}
+          </a>
           .
         </p>
       </section>
@@ -54,11 +56,6 @@ export default function QuotePage() {
               You get a clear quote — materials, labor, and timeline.
             </li>
           </ol>
-          <div className="mt-8">
-            <ButtonLink href="/book" variant="ghost">
-              Or book a call
-            </ButtonLink>
-          </div>
         </aside>
       </section>
     </div>

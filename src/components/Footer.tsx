@@ -34,11 +34,6 @@ export function Footer() {
               </Link>
             </li>
             <li>
-              <Link href="/book" className="transition-colors hover:text-white">
-                Book a consultation
-              </Link>
-            </li>
-            <li>
               <Link
                 href="/gallery"
                 className="transition-colors hover:text-white"

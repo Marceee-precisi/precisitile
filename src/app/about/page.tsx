@@ -92,9 +92,6 @@ export default function AboutPage() {
         </div>
         <div className="flex flex-wrap gap-3">
           <ButtonLink href="/quote">Request a Quote</ButtonLink>
-          <ButtonLink href="/contact" variant="ghost">
-            Contact
-          </ButtonLink>
         </div>
       </section>
     </div>
