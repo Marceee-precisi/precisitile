@@ -25,12 +25,32 @@ function region() {
   return process.env.AWS_REGION || process.env.QUOTES_AWS_REGION || "us-east-2";
 }
 
+/** Amplify SSR often has no instance-role credentials unless a compute role is wired.
+ *  Prefer IAM user keys via env when present (Amplify env → .env.production). */
+function awsClientOptions() {
+  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
+  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+  if (accessKeyId && secretAccessKey) {
+    return {
+      region: region(),
+      credentials: {
+        accessKeyId,
+        secretAccessKey,
+        ...(process.env.AWS_SESSION_TOKEN
+          ? { sessionToken: process.env.AWS_SESSION_TOKEN }
+          : {}),
+      },
+    };
+  }
+  return { region: region() };
+}
+
 function ddb() {
-  return DynamoDBDocumentClient.from(new DynamoDBClient({ region: region() }));
+  return DynamoDBDocumentClient.from(new DynamoDBClient(awsClientOptions()));
 }
 
 function s3() {
-  return new S3Client({ region: region() });
+  return new S3Client(awsClientOptions());
 }
 
 export function awsConfigured() {

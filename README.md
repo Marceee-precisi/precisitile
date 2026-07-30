@@ -2,6 +2,8 @@
 
 Custom Next.js website for [precisitile.com](https://precisitile.com). Built to replace WordPress with a modern, form-first site ready for AWS hosting.
 
+**How the project is built (folders, languages, quotes, deploy):** see **[ARCHITECTURE.md](./ARCHITECTURE.md)**.
+
 ## Local development
 
 ```bash
@@ -21,6 +23,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | `/gallery` | Project gallery |
 | `/about` | About Juan & the company |
 | `/contact` | Direct contact info |
+| `/admin` | Private quote dashboard (password) |
 
 ## Quote requests + admin dashboard
 
