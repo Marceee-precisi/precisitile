@@ -1,9 +1,9 @@
-# Precisi Tile — project guide + AI starter prompt
+# Precisi Tile — project guide + AI starter prompt- MARCELLO
 
 Business: **Precisi Tile Solutions** (small NC LLC, Lake Norman / Charlotte tile contractor).  
-Live site: **https://precisitile.com**  
-Repo: **https://github.com/Marceee-precisi/precisitile**  
-Local path: **`~/Projects/precisitile`**
+Live site: **[https://precisitile.com](https://precisitile.com)**  
+Repo: **[https://github.com/Marceee-precisi/precisitile](https://github.com/Marceee-precisi/precisitile)**  
+Local path: `~/Projects/precisitile`
 
 ---
 
@@ -60,15 +60,19 @@ My request:
 
 ---
 
+
+
 ## Big picture (simple)
 
 Three places, one website:
 
-| Place | What it is | Job |
-|-------|------------|-----|
-| **Your Mac** | Folder `~/Projects/precisitile` | Edit code, run `npm run dev`, test |
-| **GitHub** | `Marceee-precisi/precisitile` | Saves every version of the code |
-| **AWS Amplify** | Hosts the site | Builds from GitHub and serves **precisitile.com** |
+
+| Place           | What it is                      | Job                                               |
+| --------------- | ------------------------------- | ------------------------------------------------- |
+| **Your Mac**    | Folder `~/Projects/precisitile` | Edit code, run `npm run dev`, test                |
+| **GitHub**      | `Marceee-precisi/precisitile`   | Saves every version of the code                   |
+| **AWS Amplify** | Hosts the site                  | Builds from GitHub and serves **precisitile.com** |
+
 
 ```text
   [You edit on Mac]
@@ -90,20 +94,26 @@ You edit **files** → push → Amplify publishes.
 
 ---
 
+
+
 ## What language / tech is this?
 
-| Name | Plain English |
-|------|----------------|
-| **TypeScript** (`.ts` / `.tsx`) | JavaScript with types (catches mistakes earlier) |
-| **React** | UI building blocks (components) |
-| **Next.js** | Framework that turns folders into pages + API routes |
-| **Tailwind** | Utility CSS classes in the markup |
-| **Node / npm** | Runs the app and installs packages |
+
+| Name                            | Plain English                                        |
+| ------------------------------- | ---------------------------------------------------- |
+| **TypeScript** (`.ts` / `.tsx`) | JavaScript with types (catches mistakes earlier)     |
+| **React**                       | UI building blocks (components)                      |
+| **Next.js**                     | Framework that turns folders into pages + API routes |
+| **Tailwind**                    | Utility CSS classes in the markup                    |
+| **Node / npm**                  | Runs the app and installs packages                   |
+
 
 You do **not** maintain separate `.html` files for each page.  
 A file like `src/app/quote/page.tsx` **becomes** the `/quote` page.
 
 ---
+
+
 
 ## Folder map
 
@@ -125,61 +135,77 @@ precisitile/
     └── lib/             ← content + quote logic
 ```
 
+
+
 ### `src/app/` = URLs
 
-| Path | URL |
-|------|-----|
-| `src/app/page.tsx` | `/` home |
-| `src/app/about/page.tsx` | `/about` |
-| `src/app/gallery/page.tsx` | `/gallery` |
-| `src/app/quote/page.tsx` | `/quote` |
-| `src/app/admin/page.tsx` | `/admin` login |
-| `src/app/admin/quotes/page.tsx` | `/admin/quotes` |
-| `src/app/api/quote/route.ts` | `POST /api/quote` |
-| `src/app/api/admin/...` | admin APIs |
-| `src/app/layout.tsx` | header/footer wrapper for all pages |
-| `src/app/globals.css` | global look / colors |
+
+| Path                            | URL                                 |
+| ------------------------------- | ----------------------------------- |
+| `src/app/page.tsx`              | `/` home                            |
+| `src/app/about/page.tsx`        | `/about`                            |
+| `src/app/gallery/page.tsx`      | `/gallery`                          |
+| `src/app/quote/page.tsx`        | `/quote`                            |
+| `src/app/admin/page.tsx`        | `/admin` login                      |
+| `src/app/admin/quotes/page.tsx` | `/admin/quotes`                     |
+| `src/app/api/quote/route.ts`    | `POST /api/quote`                   |
+| `src/app/api/admin/...`         | admin APIs                          |
+| `src/app/layout.tsx`            | header/footer wrapper for all pages |
+| `src/app/globals.css`           | global look / colors                |
+
 
 `page.tsx` = webpage.  
 `route.ts` = server API (backend).
 
 ### `src/components/` = reusable UI
 
-| File | Job |
-|------|-----|
-| `Header.tsx` / `Footer.tsx` | Top/bottom of site |
-| `QuoteForm.tsx` | Quote form + photo upload |
-| `QuotesDashboard.tsx` | Admin list of requests |
-| `AdminLoginForm.tsx` | Admin password form |
-| `ButtonLink.tsx` / `LogoMark.tsx` | Small shared pieces |
+
+| File                              | Job                       |
+| --------------------------------- | ------------------------- |
+| `Header.tsx` / `Footer.tsx`       | Top/bottom of site        |
+| `QuoteForm.tsx`                   | Quote form + photo upload |
+| `QuotesDashboard.tsx`             | Admin list of requests    |
+| `AdminLoginForm.tsx`              | Admin password form       |
+| `ButtonLink.tsx` / `LogoMark.tsx` | Small shared pieces       |
+
+
+
 
 ### `src/lib/` = data & rules (not pretty UI)
 
-| File | Job |
-|------|-----|
-| `content.ts` | **Phone, email, services, reviews, gallery text** — edit business info here first |
-| `quotes/types.ts` | Shape of a saved quote |
-| `quotes/store.ts` | Picks AWS storage vs local files |
-| `quotes/local-store.ts` | `.data/` on your Mac |
-| `quotes/aws-store.ts` | DynamoDB + S3 on AWS |
-| `quotes/auth.ts` | Admin login cookie / password |
+
+| File                    | Job                                                                               |
+| ----------------------- | --------------------------------------------------------------------------------- |
+| `content.ts`            | **Phone, email, services, reviews, gallery text** — edit business info here first |
+| `quotes/types.ts`       | Shape of a saved quote                                                            |
+| `quotes/store.ts`       | Picks AWS storage vs local files                                                  |
+| `quotes/local-store.ts` | `.data/` on your Mac                                                              |
+| `quotes/aws-store.ts`   | DynamoDB + S3 on AWS                                                              |
+| `quotes/auth.ts`        | Admin login cookie / password                                                     |
+
 
 ---
 
+
+
 ## How AWS connects (clearly)
+
+
 
 ### Services you use
 
-| AWS service | What it does for Precisi |
-|-------------|---------------------------|
-| **Amplify Hosting** | Builds the Next.js app and serves precisitile.com |
-| **Route 53 / domain** | Domain already set up (precisitile.com) |
-| **SES / email** | Business email already configured — leave alone unless asked |
-| **DynamoDB** | Database table of quote requests |
-| **S3** | Private photo files from quote form |
-| **IAM** | Permission “badge” (user + access keys) so Amplify can write to DynamoDB/S3 |
 
-Region for quotes: **US East (Ohio) = `us-east-2`**  
+| AWS service           | What it does for Precisi                                                    |
+| --------------------- | --------------------------------------------------------------------------- |
+| **Amplify Hosting**   | Builds the Next.js app and serves precisitile.com                           |
+| **Route 53 / domain** | Domain already set up (precisitile.com)                                     |
+| **SES / email**       | Business email already configured — leave alone unless asked                |
+| **DynamoDB**          | Database table of quote requests                                            |
+| **S3**                | Private photo files from quote form                                         |
+| **IAM**               | Permission “badge” (user + access keys) so Amplify can write to DynamoDB/S3 |
+
+
+Region for quotes: **US East (Ohio) =** `us-east-2`  
 AWS account id used in ARNs: `946445280418`
 
 ### Live quote path
@@ -197,35 +223,43 @@ Next.js API  POST /api/quote   (runs inside Amplify)
 You open /admin  → see requests (password protected)
 ```
 
+
+
 ### Why access keys exist
 
 Amplify’s server (SSR) often **cannot** auto-login to AWS SDK (“no credentials”).  
 So we created an IAM user with a small policy and put keys in Amplify env vars:
 
-| Amplify env var | Meaning |
-|-----------------|--------|
-| `QUOTES_TABLE` | `precisitile-quotes` |
-| `QUOTES_BUCKET` | `precisitile-quotes-photos` |
-| `ACCESS_KEY_ID` | IAM access key (Amplify forbids `AWS_ACCESS_KEY_ID`) |
-| `SECRET_ACCESS_KEY` | IAM secret (Amplify forbids `AWS_SECRET_ACCESS_KEY`) |
-| `ADMIN_PASSWORD` | Login for `/admin` |
-| `ADMIN_SECRET` | Signs the admin cookie |
-| optional `RESEND_*` / `QUOTE_*` | Email notifications (optional) |
+
+| Amplify env var                 | Meaning                                              |
+| ------------------------------- | ---------------------------------------------------- |
+| `QUOTES_TABLE`                  | `precisitile-quotes`                                 |
+| `QUOTES_BUCKET`                 | `precisitile-quotes-photos`                          |
+| `ACCESS_KEY_ID`                 | IAM access key (Amplify forbids `AWS_ACCESS_KEY_ID`) |
+| `SECRET_ACCESS_KEY`             | IAM secret (Amplify forbids `AWS_SECRET_ACCESS_KEY`) |
+| `ADMIN_PASSWORD`                | Login for `/admin`                                   |
+| `ADMIN_SECRET`                  | Signs the admin cookie                               |
+| optional `RESEND_*` / `QUOTE_*` | Email notifications (optional)                       |
+
 
 **Critical Amplify quirk:** console env vars are **not** automatically visible to Next.js API routes.  
 `amplify.yml` copies them into `.env.production` during build so the live API can read them.
 
 ### Local vs live storage
 
-| Where you run | Storage |
-|---------------|---------|
+
+| Where you run                       | Storage                |
+| ----------------------------------- | ---------------------- |
 | Mac (`npm run dev`) without AWS env | `.data/` files on disk |
-| Live Amplify with table+bucket+keys | DynamoDB + S3 |
+| Live Amplify with table+bucket+keys | DynamoDB + S3          |
+
 
 Photo limit: **5MB**, types JPG/PNG/WEBP/HEIC.  
 Bot protection: hidden honeypot fields + form must not submit in under ~2.5 seconds.
 
 ---
+
+
 
 ## Quote + admin flow (detail)
 
@@ -239,6 +273,8 @@ Bot protection: hidden honeypot fields + form must not submit in under ~2.5 seco
 `/book` and `/contact` redirect to `/quote` (`next.config.ts`).
 
 ---
+
+
 
 ## Git commands (you can run these yourself)
 
@@ -258,19 +294,25 @@ Never commit: `.env.local`, real secrets, `.data/`.
 
 ---
 
+
+
 ## Where to edit what
 
-| Goal | File |
-|------|------|
-| Phone, email, reviews, services | `src/lib/content.ts` |
-| Home page | `src/app/page.tsx` |
-| Quote page words / sidebar | `src/app/quote/page.tsx` |
-| Form fields / photo UI | `src/components/QuoteForm.tsx` |
-| Save logic / bots / email | `src/app/api/quote/route.ts` |
-| Look & colors | `src/app/globals.css` |
-| Logo | `public/logo.png` |
+
+| Goal                            | File                           |
+| ------------------------------- | ------------------------------ |
+| Phone, email, reviews, services | `src/lib/content.ts`           |
+| Home page                       | `src/app/page.tsx`             |
+| Quote page words / sidebar      | `src/app/quote/page.tsx`       |
+| Form fields / photo UI          | `src/components/QuoteForm.tsx` |
+| Save logic / bots / email       | `src/app/api/quote/route.ts`   |
+| Look & colors                   | `src/app/globals.css`          |
+| Logo                            | `public/logo.png`              |
+
 
 ---
+
+
 
 ## Commands
 
@@ -283,6 +325,8 @@ npm run lint      # check code style
 
 ---
 
+
+
 ## Decisions already made (don’t reopen unless asked)
 
 - No paid Amplify Firewall/WAF for now — security in code (honeypot + timing).
@@ -292,6 +336,8 @@ npm run lint      # check code style
 
 ---
 
+
+
 ## If something breaks (checklist)
 
 1. Did Amplify build finish green after your push?
@@ -300,3 +346,4 @@ npm run lint      # check code style
 4. DynamoDB table + S3 bucket in **us-east-2**?
 5. Submit response: look for `"store":"aws"` on success, or `detail` error message on failure.
 6. IAM user still allowed Put/Get/Scan/Update on the table and Put/Get on the bucket?
+
