@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import { saveQuote, saveQuotePhoto } from "@/lib/quotes/store";
+import { saveQuote, saveQuotePhoto, usingAwsStore } from "@/lib/quotes/store";
 import type { QuoteRecord } from "@/lib/quotes/types";
 
 export const runtime = "nodejs";
@@ -97,12 +97,14 @@ export async function POST(request: Request) {
     status: "new",
   };
 
+  const store = usingAwsStore() ? "aws" : "local";
   await saveQuote(quote);
   console.info("[quote-request]", {
     id: quote.id,
     name: quote.name,
     email: quote.email,
     hasPhoto: Boolean(photoKey),
+    store,
   });
 
   const resendKey = process.env.RESEND_API_KEY;
@@ -144,5 +146,5 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, id });
+  return NextResponse.json({ ok: true, id, store });
 }

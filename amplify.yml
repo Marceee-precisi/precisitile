@@ -1,0 +1,20 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        # Next.js SSR/API on Amplify only sees env vars written into .env.production
+        - env | grep -e QUOTES_TABLE -e QUOTES_BUCKET -e ADMIN_PASSWORD -e ADMIN_SECRET -e RESEND_API_KEY -e QUOTE_TO_EMAIL -e QUOTE_FROM_EMAIL -e AWS_REGION >> .env.production || true
+        - echo "AWS_REGION=us-east-2" >> .env.production
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - "**/*"
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*

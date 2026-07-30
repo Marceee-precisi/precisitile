@@ -21,12 +21,16 @@ function bucketName() {
   return process.env.QUOTES_BUCKET || "";
 }
 
+function region() {
+  return process.env.AWS_REGION || process.env.QUOTES_AWS_REGION || "us-east-2";
+}
+
 function ddb() {
-  return DynamoDBDocumentClient.from(new DynamoDBClient({}));
+  return DynamoDBDocumentClient.from(new DynamoDBClient({ region: region() }));
 }
 
 function s3() {
-  return new S3Client({});
+  return new S3Client({ region: region() });
 }
 
 export function awsConfigured() {
