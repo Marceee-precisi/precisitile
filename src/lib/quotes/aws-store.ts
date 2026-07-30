@@ -25,20 +25,22 @@ function region() {
   return process.env.AWS_REGION || process.env.QUOTES_AWS_REGION || "us-east-2";
 }
 
-/** Amplify SSR often has no instance-role credentials unless a compute role is wired.
- *  Prefer IAM user keys via env when present (Amplify env → .env.production). */
+/** Amplify blocks env vars named AWS_*. Use ACCESS_KEY_ID / SECRET_ACCESS_KEY there.
+ *  Local/dev can still use the standard AWS_* names. */
 function awsClientOptions() {
-  const accessKeyId = process.env.AWS_ACCESS_KEY_ID;
-  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+  const accessKeyId =
+    process.env.ACCESS_KEY_ID || process.env.AWS_ACCESS_KEY_ID;
+  const secretAccessKey =
+    process.env.SECRET_ACCESS_KEY || process.env.AWS_SECRET_ACCESS_KEY;
+  const sessionToken =
+    process.env.SESSION_TOKEN || process.env.AWS_SESSION_TOKEN;
   if (accessKeyId && secretAccessKey) {
     return {
       region: region(),
       credentials: {
         accessKeyId,
         secretAccessKey,
-        ...(process.env.AWS_SESSION_TOKEN
-          ? { sessionToken: process.env.AWS_SESSION_TOKEN }
-          : {}),
+        ...(sessionToken ? { sessionToken } : {}),
       },
     };
   }
