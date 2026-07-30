@@ -22,6 +22,17 @@ Open [http://localhost:3000](http://localhost:3000).
 | `/about` | About Juan & the company |
 | `/contact` | Direct contact info |
 
+## Quote requests + admin dashboard
+
+Submissions are saved and viewable at **`/admin`** (password protected).
+
+Local default password: `precisi-local` (set `ADMIN_PASSWORD` in `.env.local`).
+
+- Locally, quotes/photos store under `.data/`
+- On Amplify, set `QUOTES_TABLE` + `QUOTES_BUCKET` so data lives in DynamoDB + S3 (required for a durable live dashboard)
+
+Bot protection: hidden honeypot fields + minimum form fill time.
+
 ## Quote form email (optional)
 
 Create `.env.local`:
@@ -30,9 +41,11 @@ Create `.env.local`:
 RESEND_API_KEY=re_xxx
 QUOTE_TO_EMAIL=hello@precisitile.com
 QUOTE_FROM_EMAIL=quotes@precisitile.com
+ADMIN_PASSWORD=your-strong-password
+ADMIN_SECRET=long-random-string
 ```
 
-Without these, submissions still succeed and are logged in the terminal so you can test the flow.
+Without Resend keys, submissions still save to the dashboard.
 
 ## Update business details
 

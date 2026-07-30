@@ -1,36 +1,48 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "crypto";
+import { saveQuote, saveQuotePhoto } from "@/lib/quotes/store";
+import type { QuoteRecord } from "@/lib/quotes/types";
 
-type QuoteBody = {
-  name?: string;
-  email?: string;
-  phone?: string;
-  zip?: string;
-  roomType?: string;
-  squareFootage?: string;
-  timeline?: string;
-  message?: string;
-  company?: string;
-};
+export const runtime = "nodejs";
+
+const MAX_PHOTO_BYTES = 5 * 1024 * 1024;
+const ALLOWED_TYPES = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+  "image/heif",
+]);
 
 export async function POST(request: Request) {
-  let body: QuoteBody;
+  let form: FormData;
 
   try {
-    body = (await request.json()) as QuoteBody;
+    form = await request.formData();
   } catch {
     return NextResponse.json({ error: "Invalid request." }, { status: 400 });
   }
 
-  // Honeypot — bots fill this; humans never see it
-  if (body.company) {
+  // Honeypots — bots fill hidden fields; real users never see them
+  const company = String(form.get("company") ?? "");
+  const website = String(form.get("website") ?? "");
+  if (company || website) {
     return NextResponse.json({ ok: true });
   }
 
-  const name = body.name?.trim() ?? "";
-  const email = body.email?.trim() ?? "";
-  const phone = body.phone?.trim() ?? "";
-  const zip = body.zip?.trim() ?? "";
-  const message = body.message?.trim() ?? "";
+  // Reject forms submitted impossibly fast (typical bot behavior)
+  const startedAt = Number(form.get("formStartedAt") ?? 0);
+  if (!Number.isFinite(startedAt) || Date.now() - startedAt < 2500) {
+    return NextResponse.json({ ok: true });
+  }
+
+  const name = String(form.get("name") ?? "").trim();
+  const email = String(form.get("email") ?? "").trim();
+  const phone = String(form.get("phone") ?? "").trim();
+  const zip = String(form.get("zip") ?? "").trim();
+  const message = String(form.get("message") ?? "").trim();
+  const roomType = String(form.get("roomType") ?? "").trim();
+  const squareFootage = String(form.get("squareFootage") ?? "").trim();
 
   if (!name || !email || !phone || !zip || !message) {
     return NextResponse.json(
@@ -46,21 +58,52 @@ export async function POST(request: Request) {
     );
   }
 
-  const payload = {
+  const id = randomUUID();
+  let photoKey: string | undefined;
+  let photoContentType: string | undefined;
+
+  const photo = form.get("photo");
+  if (photo instanceof File && photo.size > 0) {
+    if (photo.size > MAX_PHOTO_BYTES) {
+      return NextResponse.json(
+        { error: "Photo must be 5MB or smaller." },
+        { status: 400 },
+      );
+    }
+    if (!ALLOWED_TYPES.has(photo.type)) {
+      return NextResponse.json(
+        { error: "Photo must be JPG, PNG, WEBP, or HEIC." },
+        { status: 400 },
+      );
+    }
+
+    const bytes = Buffer.from(await photo.arrayBuffer());
+    photoKey = await saveQuotePhoto(id, bytes, photo.type, photo.name);
+    photoContentType = photo.type;
+  }
+
+  const quote: QuoteRecord = {
+    id,
     name,
     email,
     phone,
     zip,
-    roomType: body.roomType?.trim() ?? "",
-    squareFootage: body.squareFootage?.trim() ?? "",
-    timeline: body.timeline?.trim() ?? "",
+    roomType,
+    squareFootage,
     message,
+    photoKey,
+    photoContentType,
     receivedAt: new Date().toISOString(),
+    status: "new",
   };
 
-  // Wire RESEND_API_KEY + QUOTE_TO_EMAIL later for real inbox delivery.
-  // For now, log so you can verify submissions while building.
-  console.info("[quote-request]", payload);
+  await saveQuote(quote);
+  console.info("[quote-request]", {
+    id: quote.id,
+    name: quote.name,
+    email: quote.email,
+    hasPhoto: Boolean(photoKey),
+  });
 
   const resendKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.QUOTE_TO_EMAIL;
@@ -78,15 +121,17 @@ export async function POST(request: Request) {
           to: [toEmail],
           subject: `New quote request — ${name}`,
           text: [
-            `Name: ${payload.name}`,
-            `Email: ${payload.email}`,
-            `Phone: ${payload.phone}`,
-            `ZIP: ${payload.zip}`,
-            `Project: ${payload.roomType}`,
-            `Sq ft: ${payload.squareFootage || "—"}`,
-            `Timeline: ${payload.timeline || "—"}`,
+            `Name: ${quote.name}`,
+            `Email: ${quote.email}`,
+            `Phone: ${quote.phone}`,
+            `ZIP: ${quote.zip}`,
+            `Project: ${quote.roomType}`,
+            `Sq ft: ${quote.squareFootage || "—"}`,
+            `Photo: ${photoKey ? "attached in admin dashboard" : "—"}`,
             "",
-            payload.message,
+            quote.message,
+            "",
+            `Dashboard: /admin/quotes`,
           ].join("\n"),
         }),
       });
@@ -99,5 +144,5 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, id });
 }
