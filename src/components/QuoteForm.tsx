@@ -43,10 +43,24 @@ export function QuoteForm() {
         method: "POST",
         body,
       });
-      const data = (await res.json()) as { error?: string };
+      const raw = await res.text();
+      let data: { error?: string; detail?: string } = {};
+      if (raw) {
+        try {
+          data = JSON.parse(raw) as { error?: string; detail?: string };
+        } catch {
+          throw new Error(
+            `Server error (${res.status}). Please try again in a minute.`,
+          );
+        }
+      }
 
       if (!res.ok) {
-        throw new Error(data.error || "Something went wrong.");
+        throw new Error(
+          data.error ||
+            data.detail ||
+            `Something went wrong (${res.status}).`,
+        );
       }
 
       setStatus("success");
