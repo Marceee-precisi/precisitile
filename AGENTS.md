@@ -6,8 +6,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 # Precisi Tile agent notes
 
-- Project guide for humans + agents: **[ARCHITECTURE.md](./ARCHITECTURE.md)** — read it before re-explaining structure.
-- Business copy (phone, email, reviews, room types): `src/lib/content.ts`
-- Quote pipeline: `src/components/QuoteForm.tsx` → `src/app/api/quote/route.ts` → `src/lib/quotes/*`
-- Live quotes need Amplify env + `amplify.yml` `.env.production` injection + SSR compute IAM (Ohio `us-east-2`)
+- Full context + **copy-paste AI starter prompt**: [ARCHITECTURE.md](./ARCHITECTURE.md) (top section).
+- Business copy: `src/lib/content.ts`
+- Quotes: `QuoteForm` → `api/quote` → `src/lib/quotes/*` (DynamoDB/S3 live; `.data/` local)
+- Amplify env: `ACCESS_KEY_ID` / `SECRET_ACCESS_KEY` (not `AWS_*`); `amplify.yml` → `.env.production`
 - Do not commit `.env.local` or `.data/`
