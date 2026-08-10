@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
+import {
+  quotePhotoPublicUrl,
+  sendQuoteConfirmationEmails,
+} from "@/lib/email";
 import { saveQuote, saveQuotePhoto, usingAwsStore } from "@/lib/quotes/store";
 import type { QuoteRecord } from "@/lib/quotes/types";
 
@@ -136,43 +140,29 @@ export async function POST(request: Request) {
       store,
     });
 
-    const resendKey = process.env.RESEND_API_KEY;
-    const toEmail = process.env.QUOTE_TO_EMAIL;
+    const details = [
+      `ZIP: ${quote.zip}`,
+      `Project: ${quote.roomType || "—"}`,
+      `Sq ft: ${quote.squareFootage || "—"}`,
+      "",
+      quote.message,
+    ].join("\n");
 
-    if (resendKey && toEmail) {
-      try {
-        const res = await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${resendKey}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            from: process.env.QUOTE_FROM_EMAIL || "quotes@precisitile.com",
-            to: [toEmail],
-            subject: `New quote request — ${name}`,
-            text: [
-              `Name: ${quote.name}`,
-              `Email: ${quote.email}`,
-              `Phone: ${quote.phone}`,
-              `ZIP: ${quote.zip}`,
-              `Project: ${quote.roomType}`,
-              `Sq ft: ${quote.squareFootage || "—"}`,
-              `Photo: ${photoKey ? "attached in admin dashboard" : "—"}`,
-              "",
-              quote.message,
-              "",
-              `Dashboard: /admin/quotes`,
-            ].join("\n"),
-          }),
-        });
+    const photoUrls = photoKey
+      ? ([quotePhotoPublicUrl(photoKey)].filter(Boolean) as string[])
+      : [];
 
-        if (!res.ok) {
-          console.error("[quote-email-failed]", await res.text());
-        }
-      } catch (err) {
-        console.error("[quote-email-error]", err);
-      }
+    try {
+      await sendQuoteConfirmationEmails({
+        name,
+        email,
+        phone,
+        details,
+        photoUrls,
+      });
+    } catch (emailError) {
+      console.error("AWS SES Email dispatch failed:", emailError);
+      // Keep non-blocking so quote submission succeeds even if email fails
     }
 
     return NextResponse.json({ ok: true, id, store });
