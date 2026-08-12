@@ -4,11 +4,11 @@ export const site = {
   tagline: "Precision in every tile",
   description:
     "Master tile installation for kitchens, baths, and living spaces across Lake Norman and the greater Charlotte area.",
-  phone: "(704) 000-0000", // TODO: replace with your real number
-  email: "hello@precisitile.com", // TODO: confirm preferred inbox
+  phone: "(704) 314-5739", // TODO: replace with your real number
+  email: "admin@precisi-tile.com", // TODO: confirm preferred inbox
   serviceArea: "Lake Norman & Charlotte, NC",
-  googleReviewsUrl: "https://www.google.com/maps",
-  tiktokUrl: "https://www.tiktok.com/@precisitile",
+  googleReviewsUrl: "https://www.google.com/search?q=precisitile+google&rlz=1C5OZZY_enUS1141US1141&oq=precisitile+google&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIHCAEQIRigATIHCAIQIRigATIHCAMQIRigATIHCAQQIRigATIHCAUQIRiPAjIHCAYQIRiPAtIBCDIyNzhqMGo0qAIBsAIB4gMQEgxvbW5pYm94X2Zsb3cgaPEF3eljPAukiDQ&sourceid=chrome&source=chrome.ob&ie=UTF-8",
+  tiktokUrl: "https://www.tiktok.com/@justatileguy1",
 };
 
 export const navLinks = [
