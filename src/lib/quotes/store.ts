@@ -1,6 +1,7 @@
 import { readFile } from "fs/promises";
 import {
   awsConfigured,
+  awsDeleteQuote,
   awsGetPhoto,
   awsGetQuote,
   awsListQuotes,
@@ -9,6 +10,7 @@ import {
   awsSaveQuote,
 } from "./aws-store";
 import {
+  localDeleteQuote,
   localGetQuote,
   localListQuotes,
   localMarkRead,
@@ -36,6 +38,10 @@ export async function saveQuote(quote: QuoteRecord) {
 
 export async function markQuoteRead(id: string) {
   return usingAwsStore() ? awsMarkRead(id) : localMarkRead(id);
+}
+
+export async function deleteQuote(id: string) {
+  return usingAwsStore() ? awsDeleteQuote(id) : localDeleteQuote(id);
 }
 
 export async function saveQuotePhoto(

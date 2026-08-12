@@ -21,6 +21,23 @@ export function QuotesDashboard({ quotes }: { quotes: QuoteRecord[] }) {
     router.refresh();
   }
 
+  async function removeQuote(id: string, name: string) {
+    if (
+      !window.confirm(
+        `Delete quote from ${name}? This removes it from the database and any uploaded photo.`,
+      )
+    ) {
+      return;
+    }
+
+    await fetch("/api/admin/quotes", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    });
+    router.refresh();
+  }
+
   return (
     <div className="mx-auto max-w-5xl px-5 pb-20 pt-24 md:px-8 md:pt-28">
       <div className="flex flex-wrap items-end justify-between gap-4">
@@ -74,15 +91,24 @@ export function QuotesDashboard({ quotes }: { quotes: QuoteRecord[] }) {
                     {quote.roomType || "Project"} · ZIP {quote.zip}
                   </p>
                 </div>
-                {quote.status === "new" && (
+                <div className="flex flex-wrap items-center gap-4">
+                  {quote.status === "new" && (
+                    <button
+                      type="button"
+                      onClick={() => markRead(quote.id)}
+                      className="text-[0.68rem] font-semibold tracking-[0.14em] text-cyan uppercase underline-offset-4 hover:underline"
+                    >
+                      Mark read
+                    </button>
+                  )}
                   <button
                     type="button"
-                    onClick={() => markRead(quote.id)}
-                    className="text-[0.68rem] font-semibold tracking-[0.14em] text-cyan uppercase underline-offset-4 hover:underline"
+                    onClick={() => removeQuote(quote.id, quote.name)}
+                    className="text-[0.68rem] font-semibold tracking-[0.14em] text-red-700 uppercase underline-offset-4 hover:underline"
                   >
-                    Mark read
+                    Delete
                   </button>
-                )}
+                </div>
               </div>
 
               <div className="mt-4 grid gap-2 text-sm text-ink-muted md:grid-cols-2">

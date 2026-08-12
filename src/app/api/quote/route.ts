@@ -4,6 +4,7 @@ import {
   quotePhotoPublicUrl,
   sendQuoteConfirmationEmails,
 } from "@/lib/email";
+import { sendQuoteAlertSms } from "@/lib/sms";
 import { saveQuote, saveQuotePhoto, usingAwsStore } from "@/lib/quotes/store";
 import type { QuoteRecord } from "@/lib/quotes/types";
 
@@ -163,6 +164,12 @@ export async function POST(request: Request) {
     } catch (emailError) {
       console.error("AWS SES Email dispatch failed:", emailError);
       // Keep non-blocking so quote submission succeeds even if email fails
+    }
+
+    try {
+      await sendQuoteAlertSms(name);
+    } catch (smsError) {
+      console.error("AWS SNS SMS dispatch failed:", smsError);
     }
 
     return NextResponse.json({ ok: true, id, store });

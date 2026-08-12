@@ -1,12 +1,14 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
   DynamoDBDocumentClient,
+  DeleteCommand,
   GetCommand,
   PutCommand,
   ScanCommand,
   UpdateCommand,
 } from "@aws-sdk/lib-dynamodb";
 import {
+  DeleteObjectCommand,
   GetObjectCommand,
   PutObjectCommand,
   S3Client,
@@ -101,6 +103,29 @@ export async function awsMarkRead(id: string) {
     }),
   );
   return (result.Attributes as QuoteRecord | undefined) ?? null;
+}
+
+export async function awsDeleteQuote(id: string) {
+  const quote = await awsGetQuote(id);
+  if (!quote) return false;
+
+  if (quote.photoKey) {
+    await s3().send(
+      new DeleteObjectCommand({
+        Bucket: bucketName(),
+        Key: quote.photoKey,
+      }),
+    );
+  }
+
+  await ddb().send(
+    new DeleteCommand({
+      TableName: tableName(),
+      Key: { id },
+    }),
+  );
+
+  return true;
 }
 
 export async function awsSavePhoto(

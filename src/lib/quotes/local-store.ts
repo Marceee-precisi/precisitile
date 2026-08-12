@@ -1,4 +1,4 @@
-import { mkdir, readFile, writeFile } from "fs/promises";
+import { mkdir, readFile, unlink, writeFile } from "fs/promises";
 import path from "path";
 import type { QuoteRecord } from "./types";
 
@@ -50,6 +50,25 @@ export async function localMarkRead(id: string) {
   quotes[idx] = { ...quotes[idx], status: "read" };
   await writeAll(quotes);
   return quotes[idx];
+}
+
+export async function localDeleteQuote(id: string) {
+  const quotes = await readAll();
+  const idx = quotes.findIndex((q) => q.id === id);
+  if (idx === -1) return false;
+
+  const [quote] = quotes.splice(idx, 1);
+  await writeAll(quotes);
+
+  if (quote.photoKey) {
+    try {
+      await unlink(localPhotoPath(quote.photoKey));
+    } catch {
+      // Photo file may already be missing locally.
+    }
+  }
+
+  return true;
 }
 
 export async function localSavePhoto(
