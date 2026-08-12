@@ -20,8 +20,7 @@ export default function GalleryPage() {
           Work worth showing.
         </h1>
         <p className="mt-4 max-w-2xl text-ink-muted leading-relaxed">
-          A sampling of baths, kitchens, and floors. Replace these stock images
-          with your own job photos for the strongest first impression.
+          Some of our favorite projects. Any color, any style, any size.
         </p>
       </section>
 

@@ -21,16 +21,14 @@ export default function AboutPage() {
             Craft you can see up close.
           </h1>
           <p className="mt-6 text-ink-muted leading-relaxed">
-            “Gorgeous.” “Luxurious.” “Wow.” Those are the words clients reach
-            for when they see a Precisi install complete for the first time. If
-            you don’t feel that way looking at your kitchen or bath, we can
-            help.
+          Tile is the one trade where every single detail is exposed. You don't just need a contractor  
+          you need a master craftsman who treats your home like canvas. From razor sharp cuts to complete waterproof integrity, 
+          we build custom surfaces that make a statement and stand the test of time.
           </p>
           <p className="mt-4 text-ink-muted leading-relaxed">
-            Upscale homes need more than a jack-of-all-trades. You need a master
-            craftsman with decades of honed experience as a tile artisan —
-            someone who hand-picks stone, protects the jobsite, and finishes
-            every detail.
+            Your home needs a master
+            Built to serve Lake Norman’s finest homes. We’ve invested in top-tier machinery, laser leveling, and commercial grade prep equipment
+            so your jobsite runs smoothly from the moment our trucks pull up. From Mooresville down through Charlotte, we deliver the horsepower and craftsmanship required
           </p>
         </div>
 
@@ -61,8 +59,7 @@ export default function AboutPage() {
             <p className="text-lg leading-relaxed text-white/80 md:text-xl">
               Juan leads every project with integrity, clear communication, and
               a standard that shows in the finished tile — whether it’s a single
-              shower niche or a multi-room remodel alongside a general
-              contractor.
+              shower niche or a multi room remodel 
             </p>
           </div>
 
