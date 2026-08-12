@@ -34,7 +34,7 @@ export default function AboutPage() {
 
         <div className="relative aspect-[4/5] overflow-hidden">
           <Image
-            src="/public/photos/crews.jpg"
+            src="/public/photos/crew.jpg"
             alt="Crews working on a project"
             fill
             className="object-cover"
