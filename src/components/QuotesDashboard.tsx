@@ -1,10 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import type { QuoteRecord } from "@/lib/quotes/types";
 
 export function QuotesDashboard({ quotes }: { quotes: QuoteRecord[] }) {
   const router = useRouter();
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [busyId, setBusyId] = useState<string | null>(null);
 
   async function logout() {
     await fetch("/api/admin/logout", { method: "POST" });
@@ -13,12 +16,26 @@ export function QuotesDashboard({ quotes }: { quotes: QuoteRecord[] }) {
   }
 
   async function markRead(id: string) {
-    await fetch("/api/admin/quotes", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    router.refresh();
+    setActionError(null);
+    setBusyId(id);
+    try {
+      const res = await fetch("/api/admin/quotes", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as {
+          error?: string;
+          detail?: string;
+        } | null;
+        setActionError(data?.detail || data?.error || "Could not mark as read.");
+        return;
+      }
+      router.refresh();
+    } finally {
+      setBusyId(null);
+    }
   }
 
   async function removeQuote(id: string, name: string) {
@@ -30,12 +47,30 @@ export function QuotesDashboard({ quotes }: { quotes: QuoteRecord[] }) {
       return;
     }
 
-    await fetch("/api/admin/quotes", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id }),
-    });
-    router.refresh();
+    setActionError(null);
+    setBusyId(id);
+    try {
+      const res = await fetch("/api/admin/quotes", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      if (!res.ok) {
+        const data = (await res.json().catch(() => null)) as {
+          error?: string;
+          detail?: string;
+        } | null;
+        setActionError(
+          data?.detail ||
+            data?.error ||
+            "Delete failed. Check IAM DeleteItem permission.",
+        );
+        return;
+      }
+      router.refresh();
+    } finally {
+      setBusyId(null);
+    }
   }
 
   return (
@@ -60,6 +95,12 @@ export function QuotesDashboard({ quotes }: { quotes: QuoteRecord[] }) {
           Log out
         </button>
       </div>
+
+      {actionError && (
+        <p className="mt-6 border border-red-200 bg-red-50 p-4 text-sm text-red-800">
+          {actionError}
+        </p>
+      )}
 
       {quotes.length === 0 ? (
         <p className="mt-12 border border-stone-200 bg-marble p-8 text-ink-muted">
@@ -96,7 +137,8 @@ export function QuotesDashboard({ quotes }: { quotes: QuoteRecord[] }) {
                     <button
                       type="button"
                       onClick={() => markRead(quote.id)}
-                      className="text-[0.68rem] font-semibold tracking-[0.14em] text-cyan uppercase underline-offset-4 hover:underline"
+                      disabled={busyId === quote.id}
+                      className="text-[0.68rem] font-semibold tracking-[0.14em] text-cyan uppercase underline-offset-4 hover:underline disabled:opacity-50"
                     >
                       Mark read
                     </button>
@@ -104,9 +146,10 @@ export function QuotesDashboard({ quotes }: { quotes: QuoteRecord[] }) {
                   <button
                     type="button"
                     onClick={() => removeQuote(quote.id, quote.name)}
-                    className="text-[0.68rem] font-semibold tracking-[0.14em] text-red-700 uppercase underline-offset-4 hover:underline"
+                    disabled={busyId === quote.id}
+                    className="text-[0.68rem] font-semibold tracking-[0.14em] text-red-700 uppercase underline-offset-4 hover:underline disabled:opacity-50"
                   >
-                    Delete
+                    {busyId === quote.id ? "Working…" : "Delete"}
                   </button>
                 </div>
               </div>

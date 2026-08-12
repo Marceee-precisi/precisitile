@@ -109,21 +109,26 @@ export async function awsDeleteQuote(id: string) {
   const quote = await awsGetQuote(id);
   if (!quote) return false;
 
-  if (quote.photoKey) {
-    await s3().send(
-      new DeleteObjectCommand({
-        Bucket: bucketName(),
-        Key: quote.photoKey,
-      }),
-    );
-  }
-
+  // Remove DynamoDB row first so the dashboard updates even if photo cleanup fails.
   await ddb().send(
     new DeleteCommand({
       TableName: tableName(),
       Key: { id },
     }),
   );
+
+  if (quote.photoKey) {
+    try {
+      await s3().send(
+        new DeleteObjectCommand({
+          Bucket: bucketName(),
+          Key: quote.photoKey,
+        }),
+      );
+    } catch (err) {
+      console.error("[quote-photo-delete-failed]", err);
+    }
+  }
 
   return true;
 }

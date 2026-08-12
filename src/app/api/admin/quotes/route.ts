@@ -54,10 +54,21 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: "Missing id." }, { status: 400 });
   }
 
-  const deleted = await deleteQuote(body.id);
-  if (!deleted) {
-    return NextResponse.json({ error: "Not found." }, { status: 404 });
+  try {
+    const deleted = await deleteQuote(body.id);
+    if (!deleted) {
+      return NextResponse.json({ error: "Not found." }, { status: 404 });
+    }
+    return NextResponse.json({ ok: true });
+  } catch (err) {
+    console.error("[quote-delete-failed]", err);
+    return NextResponse.json(
+      {
+        error:
+          "Could not delete quote. Add dynamodb:DeleteItem (and s3:DeleteObject) to the IAM user policy.",
+        detail: err instanceof Error ? err.message : String(err),
+      },
+      { status: 500 },
+    );
   }
-
-  return NextResponse.json({ ok: true });
 }

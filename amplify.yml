@@ -8,7 +8,7 @@ frontend:
       commands:
         # Next.js SSR/API on Amplify only sees env vars written into .env.production
         # Amplify rejects AWS_* names — use ACCESS_KEY_ID / SECRET_ACCESS_KEY in the console
-        - env | grep -e QUOTES_TABLE -e QUOTES_BUCKET -e ADMIN_PASSWORD -e ADMIN_SECRET -e RESEND_API_KEY -e QUOTE_TO_EMAIL -e QUOTE_FROM_EMAIL -e AWS_REGION -e ACCESS_KEY_ID -e SECRET_ACCESS_KEY -e SESSION_TOKEN >> .env.production || true
+        - env | grep -e QUOTES_TABLE -e QUOTES_BUCKET -e ADMIN_PASSWORD -e ADMIN_SECRET -e QUOTE_ALERT_PHONE -e RESEND_API_KEY -e QUOTE_TO_EMAIL -e QUOTE_FROM_EMAIL -e AWS_REGION -e ACCESS_KEY_ID -e SECRET_ACCESS_KEY -e SESSION_TOKEN >> .env.production || true
         - echo "AWS_REGION=us-east-2" >> .env.production
         - npm run build
   artifacts:

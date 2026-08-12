@@ -33,6 +33,14 @@ function escapeHtml(value: string) {
     .replace(/"/g, "&quot;");
 }
 
+function parseEmailList(value: string | undefined, fallback: string[]) {
+  const parsed = (value ?? "")
+    .split(",")
+    .map((email) => email.trim())
+    .filter(Boolean);
+  return parsed.length > 0 ? parsed : fallback;
+}
+
 interface SendQuoteEmailsInput {
   name: string;
   email: string;
@@ -48,7 +56,12 @@ export async function sendQuoteConfirmationEmails({
   details,
   photoUrls = [],
 }: SendQuoteEmailsInput) {
-  const verifiedEmail = "admin@precisitile.com";
+  const fromEmail =
+    process.env.QUOTE_FROM_EMAIL?.trim() || "admin@precisitile.com";
+  const toEmails = parseEmailList(process.env.QUOTE_TO_EMAIL, [
+    "admin@precisitile.com",
+  ]);
+
   const safeName = escapeHtml(name);
   const safeEmail = escapeHtml(email);
   const safePhone = escapeHtml(phone);
@@ -66,8 +79,8 @@ export async function sendQuoteConfirmationEmails({
       : `<p style="margin-top: 15px; color: #6b7280;">No photos uploaded.</p>`;
 
   const ownerAlertCommand = new SendEmailCommand({
-    Source: verifiedEmail,
-    Destination: { ToAddresses: [verifiedEmail] },
+    Source: fromEmail,
+    Destination: { ToAddresses: toEmails },
     Message: {
       Subject: { Data: `NEW LEAD: ${name} - Precisi Quote Request` },
       Body: {
