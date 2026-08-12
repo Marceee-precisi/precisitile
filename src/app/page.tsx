@@ -3,7 +3,6 @@ import Link from "next/link";
 import { ButtonLink } from "@/components/ButtonLink";
 import {
   galleryItems,
-  heroImage,
   reviews,
   services,
   site,
@@ -15,8 +14,8 @@ export default function HomePage() {
     <>
       <section className="relative min-h-[100svh] overflow-hidden noise-overlay">
         <Image
-          src={heroImage.src}
-          alt={heroImage.alt}
+          src="/photos/main-home.png"
+          alt="Premium tiled shower installation"
           fill
           priority
           className="object-cover animate-hero-ken"

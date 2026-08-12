@@ -66,41 +66,37 @@ export const reviews = [
   },
 ];
 
-/**
- * Site photos live in public/photos/ (NOT src/).
- *
- * How to add / change photos:
- * 1. Drop image files into public/photos/ (use lowercase names, hyphens, no spaces)
- *    e.g. public/photos/kitchen-backsplash.jpg
- * 2. Reference them below as "/photos/your-file-name.jpg"
- * 3. Save → refresh localhost (or commit + push for live site)
- *
- * heroImage → full-bleed home hero (same Ken Burns / gradient effect)
- * aboutImage → photo on the About page
- * galleryItems → Gallery page + "Selected work" strip on Home
- */
-export const heroImage = {
-  src: "/photos/main-home.png",
-  alt: "Finished Precisi Tile installation",
-};
-
-export const aboutImage = {
-  src: "/photos/main-home.png",
-  alt: "Finished Precisi Tile installation",
-};
-
 export const galleryItems = [
   {
-    src: "/photos/main-home.png",
-    alt: "Finished Precisi Tile installation",
-    label: "Featured install",
+    src: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1200&q=80",
+    alt: "Marble shower with niche and glass enclosure",
+    label: "Primary bath",
   },
-  // Add more like this:
-  // {
-  //   src: "/photos/kitchen-backsplash.jpg",
-  //   alt: "Kitchen backsplash with tight joints",
-  //   label: "Kitchen",
-  // },
+  {
+    src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    alt: "Modern kitchen with stone backsplash",
+    label: "Kitchen",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80",
+    alt: "Spa-like bathroom with large format tile",
+    label: "Spa bath",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80",
+    alt: "Elegant tiled powder room",
+    label: "Powder room",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    alt: "Bright living space with tiled floors",
+    label: "Living floor",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=1200&q=80",
+    alt: "Walk-in shower with textured tile walls",
+    label: "Walk-in shower",
+  },
 ];
 
 export const roomTypes = [

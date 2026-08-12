@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ButtonLink } from "@/components/ButtonLink";
-import { aboutImage, site, stats } from "@/lib/content";
+import { site, stats } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "About",
@@ -36,8 +36,8 @@ export default function AboutPage() {
 
         <div className="relative aspect-[4/5] overflow-hidden">
           <Image
-            src={aboutImage.src}
-            alt={aboutImage.alt}
+            src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80"
+            alt="Finished spa bathroom tile work"
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
