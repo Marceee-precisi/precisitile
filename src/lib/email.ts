@@ -57,9 +57,9 @@ export async function sendQuoteConfirmationEmails({
   photoUrls = [],
 }: SendQuoteEmailsInput) {
   const fromEmail =
-    process.env.QUOTE_FROM_EMAIL?.trim() || "admin@precisitile.com";
+    process.env.QUOTE_FROM_EMAIL?.trim() || "cisitile.com";
   const toEmails = parseEmailList(process.env.QUOTE_TO_EMAIL, [
-    "admin@precisitile.com",
+    "cisitile.com",
   ]);
 
   const safeName = escapeHtml(name);

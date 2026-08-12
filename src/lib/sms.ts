@@ -32,7 +32,7 @@ export async function sendQuoteAlertSms(name: string) {
   await snsClient().send(
     new PublishCommand({
       PhoneNumber: phone,
-      Message: `New Precisi quote from ${name}. Check admin@precisitile.com or precisitile.com/admin/quotes`,
+      Message: `New Precisi quote from ${name}. Check cisitile.com or precisitile.com/admin/quotes`,
     }),
   );
 }
