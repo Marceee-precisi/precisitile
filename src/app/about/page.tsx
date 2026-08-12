@@ -21,14 +21,14 @@ export default function AboutPage() {
             Craft you can see up close.
           </h1>
           <p className="mt-6 text-ink-muted leading-relaxed">
-          Tile is the one trade where every single detail is exposed. You don't just need a contractor  
-          you need a master craftsman who treats your home like canvas. From razor sharp cuts to complete waterproof integrity, 
-          we build custom surfaces that make a statement and stand the test of time.
+          Tile is the one trade where every single detail is exposed. it's the defining finish of your home.
+           From razor sharp cuts to complete waterproof integrity, we treat your home like canvas.
+          we build to make a statement and stand the test of time.
           </p>
           <p className="mt-4 text-ink-muted leading-relaxed">
-            Your home needs a master
-            Built to serve Lake Norman’s finest homes. We’ve invested in top-tier machinery, laser leveling, and commercial grade prep equipment
-            so your jobsite runs smoothly from the moment our trucks pull up. From Mooresville down through Charlotte, we deliver the horsepower and craftsmanship required
+           
+            Built to serve Lake Norman’s finest homes. We’ve invested in top tier machinery and crew to ensure a smooth and efficient jobsite.
+             From Mooresville down through Charlotte, we deliver the horsepower and craftsmanship required to get the job done right.
           </p>
         </div>
 
