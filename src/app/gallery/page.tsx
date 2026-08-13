@@ -1,13 +1,30 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ButtonLink } from "@/components/ButtonLink";
-import { galleryItems } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Gallery",
   description:
     "Selected tile installations by Precisi Tile Solutions — bathrooms, kitchens, floors, and custom stone.",
 };
+
+const galleryPhotos = [
+  {
+    src: "/photos/big2.jpg",
+    alt: "Bathroom tile installation with freestanding tub",
+    label: "Bathroom",
+  },
+  {
+    src: "/photos/big3.jpg",
+    alt: "Flooring tile installation in progress",
+    label: "Flooring",
+  },
+  {
+    src: "/photos/big1.jpg",
+    alt: "Kitchen tile backsplash installation",
+    label: "Backsplash",
+  },
+];
 
 export default function GalleryPage() {
   return (
@@ -25,19 +42,20 @@ export default function GalleryPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-5 pb-20 md:px-8 md:pb-28">
-        <div className="columns-1 gap-3 sm:columns-2 lg:columns-3">
-          {galleryItems.map((item) => (
-            <figure key={item.src} className="mb-3 break-inside-avoid">
-              <div className="relative aspect-[4/5] overflow-hidden">
+        <div className="grid gap-4 sm:grid-cols-3 sm:gap-3">
+          {galleryPhotos.map((item) => (
+            <figure key={item.src}>
+              <div className="relative aspect-[3/4] overflow-hidden">
                 <Image
                   src={item.src}
                   alt={item.alt}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 100vw, 33vw"
+                  priority
                 />
               </div>
-              <figcaption className="mt-2 text-[0.7rem] tracking-[0.16em] text-ink-muted uppercase">
+              <figcaption className="mt-3 text-base font-bold tracking-tight text-ink">
                 {item.label}
               </figcaption>
             </figure>
