@@ -26,6 +26,11 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+  robots: {
+    googleBot: {
+      "max-image-preview": "large",
+    },
+  },
 };
 
 export default function RootLayout({
