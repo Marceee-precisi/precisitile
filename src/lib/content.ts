@@ -68,19 +68,19 @@ export const reviews = [
 
 export const galleryItems = [
   {
-    src: "https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1200&q=80",
+    src: "/photos/front1.jpeg",
     alt: "Marble shower with niche and glass enclosure",
-    label: "Primary bath",
+    label: "Primary Bath",
   },
   {
-    src: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    src: "/photos/front2.jpeg",
     alt: "Modern kitchen with stone backsplash",
-    label: "Kitchen",
+    label: "Backsplash",
   },
   {
-    src: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80",
+    src: "/photos/front3.jpeg",
     alt: "Spa-like bathroom with large format tile",
-    label: "Spa bath",
+    label: "Kitchen",
   },
   {
     src: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80",
