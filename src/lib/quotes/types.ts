@@ -13,4 +13,6 @@ export type QuoteRecord = {
   photoContentType?: string;
   receivedAt: string;
   status: QuoteStatus;
+  filteredReason?: string;
+
 };

@@ -1,12 +1,10 @@
-import { NextResponse } from "next/server";
+=import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
-import {
-  quotePhotoPublicUrl,
-  sendQuoteConfirmationEmails,
-} from "@/lib/email";
+import { quotePhotoPublicUrl, sendQuoteConfirmationEmails } from "@/lib/email";
 import { sendQuoteAlertSms } from "@/lib/sms";
 import { saveQuote, saveQuotePhoto, usingAwsStore } from "@/lib/quotes/store";
 import type { QuoteRecord } from "@/lib/quotes/types";
+import { classifyQuote } from "@/lib/quotes/spamFilter";
 
 export const runtime = "nodejs";
 
@@ -53,15 +51,30 @@ export async function POST(request: Request) {
     if (!name || !email || !phone || !zip || !message) {
       return NextResponse.json(
         { error: "Please fill in all required fields." },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json(
         { error: "Please enter a valid email address." },
-        { status: 400 },
+        { status: 400 }
       );
+    }
+
+    // --- AI CLASSIFICATION ---
+    const classification = await classifyQuote({
+      name,
+      email,
+      roomType,
+      squareFootage,
+      message,
+    });
+
+    // SPAM → silently discard (spammer thinks it went through)
+    if (classification === "SPAM") {
+      console.info("[quote-spam-filtered]", { name, email, reason: "SPAM" });
+      return NextResponse.json({ ok: true, id: "filtered" });
     }
 
     const id = randomUUID();
@@ -74,13 +87,13 @@ export async function POST(request: Request) {
       if (photo.size > MAX_PHOTO_BYTES) {
         return NextResponse.json(
           { error: "Photo must be 5MB or smaller." },
-          { status: 400 },
+          { status: 400 }
         );
       }
       if (!ALLOWED_TYPES.has(photo.type)) {
         return NextResponse.json(
           { error: "Photo must be JPG, PNG, WEBP, or HEIC." },
-          { status: 400 },
+          { status: 400 }
         );
       }
 
@@ -97,7 +110,7 @@ export async function POST(request: Request) {
             detail: err instanceof Error ? err.message : String(err),
             store: preferAws ? "aws" : "local",
           },
-          { status: 500 },
+          { status: 500 }
         );
       }
     }
@@ -115,6 +128,8 @@ export async function POST(request: Request) {
       photoContentType,
       receivedAt: new Date().toISOString(),
       status: "new",
+      filteredReason:
+        classification === "GENUINE_SMALL" ? "small_job" : undefined,
     };
 
     try {
@@ -128,7 +143,7 @@ export async function POST(request: Request) {
           detail: err instanceof Error ? err.message : String(err),
           store: preferAws ? "aws" : "local",
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
 
@@ -139,6 +154,7 @@ export async function POST(request: Request) {
       email: quote.email,
       hasPhoto: Boolean(photoKey),
       store,
+      classification,
     });
 
     const details = [
@@ -163,7 +179,6 @@ export async function POST(request: Request) {
       });
     } catch (emailError) {
       console.error("AWS SES Email dispatch failed:", emailError);
-      // Keep non-blocking so quote submission succeeds even if email fails
     }
 
     try {
@@ -172,7 +187,8 @@ export async function POST(request: Request) {
       console.error("AWS SNS SMS dispatch failed:", smsError);
     }
 
-    return NextResponse.json({ ok: true, id, store });
+    const isConversion = classification === "GENUINE_LARGE";
+    return NextResponse.json({ ok: true, id, store, conversion: isConversion });
   } catch (err) {
     console.error("[quote-unhandled]", err);
     return NextResponse.json(
@@ -180,7 +196,8 @@ export async function POST(request: Request) {
         error: "Unexpected server error.",
         detail: err instanceof Error ? err.message : String(err),
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
+

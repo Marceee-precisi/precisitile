@@ -44,13 +44,17 @@ export function QuoteForm() {
         body,
       });
       const raw = await res.text();
-      let data: { error?: string; detail?: string } = {};
+      let data: { error?: string; detail?: string; conversion?: boolean } = {};
       if (raw) {
         try {
-          data = JSON.parse(raw) as { error?: string; detail?: string };
+          data = JSON.parse(raw) as {
+            error?: string;
+            detail?: string;
+            conversion?: boolean;
+          };
         } catch {
           throw new Error(
-            `Server error (${res.status}). Please try again in a minute.`,
+            `Server error (${res.status}). Please try again in a minute.`
           );
         }
       }
@@ -59,7 +63,7 @@ export function QuoteForm() {
         throw new Error(
           data.error ||
             data.detail ||
-            `Something went wrong (${res.status}).`,
+            `Something went wrong (${res.status}).`
         );
       }
 
@@ -67,6 +71,13 @@ export function QuoteForm() {
       setForm(initial);
       setPhoto(null);
       setFormStartedAt(Date.now());
+
+      // Fire Google Ads conversion for genuine large jobs
+      if (data.conversion && typeof (window as any).gtag === "function") {
+        (window as any).gtag("event", "conversion", {
+          send_to: "AW-XXXXXXXXXX/YYYYYYYYYY",
+        });
+      }
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Something went wrong.");
@@ -79,16 +90,15 @@ export function QuoteForm() {
 
   if (status === "success") {
     return (
-      <div className="border border-stone-200 bg-marble px-6 py-10 md:px-10">
-        <p className="text-3xl font-bold tracking-tight text-ink">Thank you.</p>
-        <p className="mt-3 max-w-md text-ink-muted leading-relaxed">
+      <div className="mx-auto max-w-md text-center">
+        <p className="mb-4 text-2xl font-semibold text-ink">Thank you.</p>
+        <p className="text-ink-muted">
           We received your quote request and will follow up shortly — usually
           within one business day.
         </p>
         <button
-          type="button"
-          className="mt-8 text-[0.75rem] font-medium tracking-[0.16em] text-cyan uppercase underline-offset-4 hover:underline"
           onClick={() => setStatus("idle")}
+          className="mt-8 bg-cyan px-6 py-4 text-[0.72rem] font-semibold tracking-[0.16em] text-ink uppercase transition-colors hover:bg-cyan-soft"
         >
           Submit another request
         </button>
@@ -100,9 +110,8 @@ export function QuoteForm() {
     "mt-2 w-full border border-stone-200 bg-white px-4 py-3 text-sm text-ink outline-none transition-colors placeholder:text-ink-muted/50 focus:border-lake";
 
   return (
-    <form onSubmit={onSubmit} className="space-y-6" noValidate>
+    <form onSubmit={onSubmit} className="mx-auto max-w-2xl space-y-6">
       <input
-        type="text"
         name="company"
         value={form.company}
         onChange={(e) => update("company", e.target.value)}
@@ -112,7 +121,6 @@ export function QuoteForm() {
         aria-hidden="true"
       />
       <input
-        type="text"
         name="website"
         value={form.website}
         onChange={(e) => update("website", e.target.value)}
@@ -232,3 +240,4 @@ export function QuoteForm() {
     </form>
   );
 }
+
