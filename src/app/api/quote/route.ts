@@ -1,4 +1,4 @@
-=import { NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { randomUUID } from "crypto";
 import { quotePhotoPublicUrl, sendQuoteConfirmationEmails } from "@/lib/email";
 import { sendQuoteAlertSms } from "@/lib/sms";
