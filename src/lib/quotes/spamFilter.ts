@@ -1,9 +1,5 @@
 import OpenAI from "openai";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export type Classification =
   | "GENUINE_LARGE"
   | "GENUINE_SMALL"
@@ -16,8 +12,11 @@ export async function classifyQuote(params: {
   squareFootage: string;
   message: string;
 }): Promise<Classification> {
-  // If no API key is set, let everything through (safe fallback)
   if (!process.env.OPENAI_API_KEY) return "GENUINE_LARGE";
+
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
 
   const prompt = `You are a classifier for a tile installation company's quote form.
 A customer has submitted the following information. Classify it as one of:
@@ -57,9 +56,5 @@ Submission details:
     return result;
   }
 
-  // Fallback — let it through if AI gives unexpected response
   return "GENUINE_LARGE";
 }
-
-
-
