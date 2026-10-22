@@ -5,6 +5,11 @@ import { roomTypes } from "@/lib/content";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
+type QuoteFormProps = {
+  onSuccess?: () => void;
+  onReset?: () => void;
+};
+
 const initial = {
   name: "",
   email: "",
@@ -17,7 +22,7 @@ const initial = {
   website: "", // honeypot
 };
 
-export function QuoteForm() {
+export function QuoteForm({ onSuccess, onReset }: QuoteFormProps) {
   const [form, setForm] = useState(initial);
   const [photo, setPhoto] = useState<File | null>(null);
   const [formStartedAt, setFormStartedAt] = useState(0);
@@ -68,6 +73,7 @@ export function QuoteForm() {
       }
 
       setStatus("success");
+      onSuccess?.();
       setForm(initial);
       setPhoto(null);
       setFormStartedAt(Date.now());
@@ -97,7 +103,10 @@ export function QuoteForm() {
           within one business day.
         </p>
         <button
-          onClick={() => setStatus("idle")}
+          onClick={() => {
+            setStatus("idle");
+            onReset?.();
+          }}
           className="mt-8 bg-cyan px-6 py-4 text-[0.72rem] font-semibold tracking-[0.16em] text-ink uppercase transition-colors hover:bg-cyan-soft"
         >
           Submit another request
